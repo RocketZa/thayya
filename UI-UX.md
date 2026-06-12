@@ -605,5 +605,106 @@ Reduced-motion: ambient loops freeze to their midpoint, everything else per §7.
 
 ---
 
+---
+
+# ADDENDUM v3.0 — Mobile-First Hero (Design Review Response, June 2026)
+
+Stakeholder review found the hero hard to read on mobile: the dotted rangoli artwork sat
+directly behind the headline and copy, the layout read as desktop-scaled-down, and the
+CTAs competed with the background. This addendum is the design response. Where it
+conflicts with §10.1 / A5 / A6, **this addendum wins for the hero chapter**.
+
+## A8.1 Principles (now binding for the hero)
+
+1. **Mobile is the primary design target.** Hierarchy: headline → supporting copy →
+   primary CTA → secondary CTA → decoration, in that order, all above the fold.
+2. **Content-safe zone.** A reserved area (top ~55% of the mobile viewport; left ~50%
+   of the desktop viewport) where **no decorative asset may render**. Artwork that
+   approaches the zone must fade to zero via a mask, not merely dim.
+3. **Decoration supports, never competes.** The eye flows headline → copy → CTA, not
+   artwork → artwork → text.
+
+## A8.2 Concepts explored
+
+**Concept A — Minimal:** remove the rangoli from the content area entirely; cream
+paper + the body's soft festival mesh only; clean typography carries the hero.
+*Pro:* maximum readability, fastest paint. *Con:* loses the signature 3D moment and the
+"Utsav" promise; hero reads generic next to the rest of the page.
+
+**Concept B — Watermark:** keep the rangoli full-bleed behind the type but at 5–10%
+opacity. *Pro:* keeps the motif everywhere. *Con:* at 5–10% the particles read as noise,
+not pattern — worst of both worlds (still texture behind glyphs, no longer a feature).
+
+**Concept C — Split / edge accent (RECOMMENDED, implemented):**
+- **Mobile:** content owns the top of the viewport on a soft brand wash (auroras at
+  reduced opacity). The Digital Rangoli is demoted to a **bottom-edge corner accent** —
+  a short band above the stat strip, ~55% opacity, masked so it fades to nothing before
+  reaching the copy. Zero artwork behind headline, copy, or CTAs.
+- **Desktop/tablet:** the existing split composition, hardened — canvas constrained to
+  the right 62% with a left-edge mask (`transparent → black at 35%`) so particles fade
+  out before the copy column. The outlined type echo stays (hairline, 10% opacity — it
+  was not the complaint and is not dotted texture).
+*Rationale:* preserves the award-level 3D signature while making readability structural
+(a mask guarantee) rather than tuned (an opacity guess). One mental model across
+breakpoints: content column + artwork zone.
+
+## A8.3 Mobile hero spec (≤767px)
+
+```
+┌──────────────────────────┐
+│  nav                     │
+│                          │
+│  Move.                   │   content-safe zone
+│  Rise.        ← gradient │   (no artwork may
+│  Shine.                  │    render here)
+│                          │
+│  Movement rooted in      │
+│  Indian rhythms. …       │
+│                          │
+│ ┌──────────────────────┐ │
+│ │     Book a class     │ │   primary CTA, full-width
+│ └──────────────────────┘ │
+│    Become an instructor  │   secondary, centered link
+│                          │
+│      · rangoli band ·    │   bottom accent, 55% opacity,
+│ ──────────────────────── │   masked fade-up, clears stats
+│  40+   1200+   ∞  (stats)│
+└──────────────────────────┘
+```
+
+- Section top-aligned; content padding-top `clamp(96px, 14vh, 136px)`.
+- CTAs stack vertically: primary `.btn` full-width and centered (most prominent
+  element after the headline); secondary `link-sweep` centered beneath.
+- Echo and all floating ornaments hidden; auroras reduced to 0.32 opacity (soft
+  gradient wash only — backgrounds still never flat).
+- Mandala: 12k particles, radius 2.4, weighted to the bottom-right corner of its band.
+- Kolam dot lattice behind the stat strip halved in opacity.
+
+## A8.4 Accessibility review
+
+- Headline ink `#0F1112` on paper `#FAF8F4`: ~17.4:1 — passes AAA.
+- Body/lead `#5F5D59` on paper: ~6.9:1 — passes AA (and AAA for large text).
+- Primary CTA: white on the saffron→violet gradient pill; darkest stops carry it,
+  plus 700 weight at 16px — passes AA for UI text against every stop except pure
+  saffron, which occupies the leading edge only; the label always overlaps the
+  red-magenta midrange. Verified visually at all viewports.
+- Gradient italic word ("Rise."): teal/saffron stops sit near 2.6–2.8:1 on cream —
+  borderline for large text. Mobile applies `filter: brightness(0.85)` to the word,
+  lifting the weakest stop above the 3:1 large-text threshold. Two of three headline
+  words remain solid ink, so the headline never depends on the gradient word alone.
+- Focus, semantics, reduced-motion: unchanged from §13 (one `h1`, canvas
+  `aria-hidden`, static fallback).
+
+## A8.5 Validation matrix
+
+Playwright screenshots required at: 360×800, 375×812, 390×844, 412×915 (mobile),
+768×1024 (tablet), 1440×900, 1920×1080 (desktop). Pass = headline, copy, and primary
+CTA fully above the fold on every mobile size; no decorative pixel inside the
+content-safe zone; no overlap or truncation anywhere.
+
+Concept comparison mockups: `design/hero-concepts.html` (static, token-faithful).
+
+---
+
 *End of specification. Build against this document; deviations should be intentional
 and noted back into this file.*

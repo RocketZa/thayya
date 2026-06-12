@@ -33,15 +33,19 @@
   animation-delay: -11s;
 }
 
-/* ---------- rangoli canvas: behind content, right-weighted ---------- */
+/* ---------- rangoli canvas: right-weighted, OUTSIDE the content-safe
+   zone (ADDENDUM A8). The left mask guarantees particles fade out
+   before they reach the copy column. ---------- */
 .canvasWrap {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 66%;
+  width: 62%;
   z-index: 0;
   pointer-events: none;
+  mask-image: linear-gradient(to right, transparent 6%, #000 40%);
+  -webkit-mask-image: linear-gradient(to right, transparent 6%, #000 40%);
 }
 
 /* ---------- filmic grain over the whole chapter (A4) ---------- */
@@ -271,41 +275,91 @@
   .echo {
     font-size: clamp(140px, 22vw, 300px);
   }
+
+  /* tablet: tighter artwork zone — the mandala becomes a right-edge
+     accent so the copy column stays fully clear */
+  .canvasWrap {
+    width: 56%;
+    mask-image: linear-gradient(to right, transparent 12%, #000 55%);
+    -webkit-mask-image: linear-gradient(to right, transparent 12%, #000 55%);
+  }
 }
 
+/* Mobile-first hero (ADDENDUM A8): content owns the top of the
+   viewport; the rangoli is demoted to a bottom-edge accent and never
+   sits behind the headline, copy, or CTAs. */
 @media (max-width: 767px) {
-  /* mandala centers full-bleed behind the type */
-  .canvasWrap {
-    width: 100%;
-    left: 0;
-  }
-
-  /* echo hidden, ornaments reduced to one */
-  .echo {
-    display: none;
-  }
-
-  .ornPaisley,
-  .ornKolam {
-    display: none;
-  }
-
-  .ornDot {
-    top: 20%;
-    left: auto;
-    right: 14%;
+  .hero {
+    align-items: flex-start;
   }
 
   .inner {
+    padding-top: clamp(96px, 14vh, 136px);
     padding-bottom: var(--s8);
   }
 
+  /* rangoli → bottom-edge accent, faded, clear of the stat strip
+     AND the secondary CTA above it */
+  .canvasWrap {
+    top: auto;
+    left: 0;
+    bottom: 104px;
+    height: 28%;
+    width: 100%;
+    opacity: 0.5;
+    mask-image: linear-gradient(to top, #000 45%, transparent 92%);
+    -webkit-mask-image: linear-gradient(to top, #000 45%, transparent 92%);
+  }
+
+  /* background stays a soft brand wash, never competing with copy */
+  .auroraSaffron,
+  .auroraRani {
+    opacity: 0.32;
+  }
+
+  /* all decorative layers leave the content-safe zone */
+  .echo,
+  .ornPaisley,
+  .ornKolam,
+  .ornDot {
+    display: none;
+  }
+
+  .sub {
+    margin-top: var(--s4);
+  }
+
+  /* stacked CTAs: primary full-width and dominant, secondary beneath */
+  .ctas {
+    margin-top: var(--s4);
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s3);
+  }
+
+  .ctas :global(.btn) {
+    justify-content: center;
+  }
+
+  .ctas :global(.link-sweep) {
+    align-self: center;
+  }
+
+  /* deepen the living gradient so the italic word holds AA large-text
+     contrast against cream at mobile sizes */
+  .gradientWord {
+    filter: brightness(0.85);
+  }
+
+  /* the cue collided with the stat strip and reads as clutter on
+     small screens — the stacked layout already implies scroll */
   .scrollCue {
-    bottom: calc(var(--s7) + var(--s4));
+    display: none;
   }
 
   .kolam {
     height: 100px;
+    opacity: 0.5;
   }
 
   .stats {

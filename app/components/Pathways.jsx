@@ -11,9 +11,9 @@ import styles from "./Pathways.module.css";
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * §10.5 Pathways — three editorial columns split by hairline rules.
- * Columns rise+fade in with a 0.12s stagger; hover tints a column and
- * shifts its rules to its accent color (CSS only).
+ * §10.5 Pathways + Utsav A5 — three glass cards over a violet→peacock
+ * wash with drifting auroras. Cards rise+fade in with a 0.12s stagger;
+ * hover lifts a card toward its accent color (CSS only).
  */
 export default function Pathways() {
   const ref = useRef(null);
@@ -34,6 +34,25 @@ export default function Pathways() {
         return;
       }
 
+      // aurora parallax drift — GSAP scrubs the WRAPPER divs, so the
+      // global .aurora animation keeps ownership of the child's transform
+      gsap.utils.toArray(`.${styles.orb}`).forEach((orb, i) => {
+        gsap.fromTo(
+          orb,
+          { yPercent: i % 2 ? 8 : -8 },
+          {
+            yPercent: i % 2 ? -8 : 8,
+            ease: "none",
+            scrollTrigger: {
+              trigger: ref.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            },
+          }
+        );
+      });
+
       gsap.from(cols, {
         y: 48,
         autoAlpha: 0,
@@ -49,7 +68,16 @@ export default function Pathways() {
 
   return (
     <section id="pathways" className={`chapter ${styles.section}`} ref={ref}>
-      <div className="wrap">
+      {/* violet→peacock dusk atmosphere — auroras in parallax wrappers + grain */}
+      <div className={`${styles.orb} ${styles.orbA}`} aria-hidden="true">
+        <span className="aurora" />
+      </div>
+      <div className={`${styles.orb} ${styles.orbB}`} aria-hidden="true">
+        <span className="aurora" />
+      </div>
+      <div className="grain" aria-hidden="true" />
+
+      <div className={`wrap ${styles.inner}`}>
         <SectionHeader overline={PATHWAYS.overline} tamil={PATHWAYS.tamil} />
         <h2 className={`display ${styles.title}`}>{PATHWAYS.title}</h2>
 
@@ -58,7 +86,7 @@ export default function Pathways() {
             <article
               key={col.overline}
               data-col=""
-              className={styles.col}
+              className={`${styles.col} glass`}
               style={{ "--accent": col.accent }}
             >
               <span className={`label ${styles.colOverline}`}>{col.overline}</span>

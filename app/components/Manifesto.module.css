@@ -1,7 +1,11 @@
-/* §10.3 Manifesto — pinned spotlight-reading chapter */
+/* §10.3 Manifesto — pinned spotlight-reading chapter,
+   warm saffron "Utsav" atmosphere (A5) */
 
 .section {
   overflow: hidden;
+  /* pre-reveal word tint — saffron pulled toward the hairline grey
+     (read by the GSAP word-scrub in Manifesto.jsx) */
+  --mword-from: rgba(197, 117, 56, 0.42);
 }
 
 @media (min-width: 768px) {
@@ -11,6 +15,44 @@
     flex-direction: column;
     justify-content: center;
   }
+}
+
+/* ---------- saffron/marigold auroras (Utsav A5) ---------- */
+
+/* parallax wrappers: GSAP scrubs these so the global .aurora drift
+   animation keeps ownership of the child's transform */
+.orb {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+.orb :global(.aurora) {
+  position: absolute;
+  inset: 0;
+}
+
+.orbA {
+  width: 44vw;
+  height: 44vw;
+  top: -10%;
+  left: -12%;
+}
+.orbA :global(.aurora) {
+  background: radial-gradient(circle, var(--saffron), transparent 65%);
+  opacity: 0.3;
+}
+
+.orbB {
+  width: 38vw;
+  height: 38vw;
+  bottom: -12%;
+  right: -8%;
+}
+.orbB :global(.aurora) {
+  background: radial-gradient(circle, var(--marigold), transparent 65%);
+  opacity: 0.35;
+  animation-delay: -7s;
 }
 
 .inner {
@@ -40,22 +82,41 @@
   display: inline;
 }
 
-/* 12-fold rangoli backdrop behind the right edge */
+/* colorful double-rangoli backdrop behind the right edge:
+   saffron + rani rings, slightly offset, counter-rotating on scrub */
 .rangoli {
   position: absolute;
   top: 50%;
   right: calc(var(--s8) * -2);
   margin-top: -380px;
-  color: var(--ink);
   z-index: 0;
   pointer-events: none;
+}
+
+.rangoliSaffron {
+  color: var(--saffron);
   will-change: transform;
 }
 
-/* ghost numeral bleeding off the left edge */
+.rangoliRani {
+  position: absolute;
+  top: 32px;
+  left: -32px;
+  color: var(--rani);
+  will-change: transform;
+}
+
+/* ghost numeral bleeding off the left edge — very faint gradient fill */
 .ghost {
   left: -0.12em;
   bottom: -0.08em;
+}
+.section .ghost {
+  background: var(--thayya-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.05;
 }
 
 @media (max-width: 767px) {

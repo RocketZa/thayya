@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thayya — Mobile Hero Concepts (Design Review Response)</title>
+<style>
+  /* Token-faithful to app/globals.css */
+  :root {
+    --saffron: #f66917;
+    --vermilion: #f04226;
+    --rani: #bd23a2;
+    --violet: #9f26a7;
+    --teal: #07aeae;
+    --marigold: #ffb627;
+    --paper: #faf8f4;
+    --ink: #0f1112;
+    --ink-soft: #5f5d59;
+    --hairline: rgba(15, 17, 18, 0.14);
+    --kolam-dot: rgba(15, 17, 18, 0.22);
+    --thayya-gradient: linear-gradient(100deg, #f66917 0%, #f04226 25%, #bd23a2 50%, #9f26a7 72%, #07aeae 100%);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #efece5;
+    color: var(--ink);
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+    padding: 48px 32px 80px;
+  }
+  h1 { font-family: georgia, serif; font-weight: 400; font-size: 34px; letter-spacing: -0.02em; }
+  .intro { max-width: 70ch; color: var(--ink-soft); margin: 12px 0 48px; line-height: 1.6; }
+  .row { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; justify-content: center; }
+  .concept { width: 340px; }
+  .concept h2 { font-size: 15px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px; }
+  .concept .verdict { font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+  .concept .verdict.win { color: #0fa36b; }
+  .concept .verdict.lose { color: var(--vermilion); }
+  .concept p.note { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; margin-top: 14px; }
+
+  /* phone frame ~390x844 at 0.82 scale */
+  .phone {
+    width: 340px; height: 700px;
+    border-radius: 36px;
+    border: 6px solid var(--ink);
+    overflow: hidden;
+    position: relative;
+    background: var(--paper);
+    box-shadow: 0 24px 60px rgba(15, 17, 18, 0.18);
+  }
+  .screen { position: absolute; inset: 0; overflow: hidden; }
+
+  /* shared hero anatomy */
+  .navbar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px; font-size: 13px;
+  }
+  .wordmark { font-family: georgia, serif; font-size: 19px; background: var(--thayya-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .burger { display: flex; flex-direction: column; gap: 4px; }
+  .burger span { display: block; width: 20px; height: 2px; background: var(--ink); }
+  .content { position: absolute; top: 96px; left: 24px; right: 24px; z-index: 4; }
+  .headline { font-family: georgia, serif; font-size: 56px; line-height: 0.95; letter-spacing: -0.03em; font-weight: 400; }
+  .headline .grad { font-style: italic; background: var(--thayya-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; filter: brightness(0.85); }
+  .sub { margin-top: 18px; font-size: 15px; line-height: 1.55; color: var(--ink-soft); max-width: 30ch; }
+  .cta-primary {
+    margin-top: 22px; display: flex; justify-content: center; align-items: center;
+    height: 54px; border-radius: 999px; color: #fff; font-weight: 700; font-size: 15px;
+    background: linear-gradient(110deg, var(--saffron), var(--vermilion) 35%, var(--rani) 70%, var(--violet));
+    box-shadow: 0 8px 28px rgba(240, 66, 38, 0.35);
+  }
+  .cta-secondary { margin-top: 14px; text-align: center; font-weight: 700; font-size: 14px; }
+  .cta-secondary span { border-bottom: 1.5px solid var(--rani); padding-bottom: 3px; }
+  .stats {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
+    display: flex; gap: 26px; padding: 14px 24px 20px; border-top: 1px solid var(--hairline);
+    background: linear-gradient(to top, rgba(250,248,244,0.85), transparent);
+  }
+  .stat b { display: block; font-family: georgia, serif; font-weight: 400; font-size: 20px; }
+  .stat i { font-style: normal; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); }
+
+  /* dotted rangoli (CSS stand-in for the particle mandala) */
+  .rangoli {
+    position: absolute; border-radius: 50%;
+    background:
+      repeating-radial-gradient(circle at 50% 50%, transparent 0 16px, color-mix(in srgb, var(--rani) 55%, transparent) 16px 18px, transparent 18px 34px, color-mix(in srgb, var(--teal) 45%, transparent) 34px 36px, transparent 36px 52px, color-mix(in srgb, var(--saffron) 50%, transparent) 52px 54px),
+      radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--saffron) 40%, transparent), color-mix(in srgb, var(--vermilion) 30%, transparent) 30%, color-mix(in srgb, var(--rani) 24%, transparent) 55%, color-mix(in srgb, var(--violet) 18%, transparent) 75%, transparent 100%);
+  }
+  .aurora { position: absolute; border-radius: 50%; filter: blur(40px); pointer-events: none; }
+
+  /* ---- Concept A: minimal ---- */
+  .a .aurora-1 { width: 200px; height: 200px; top: -50px; left: -60px; background: var(--saffron); opacity: 0.18; }
+  .a .aurora-2 { width: 240px; height: 240px; bottom: 60px; right: -90px; background: var(--rani); opacity: 0.14; }
+
+  /* ---- Concept B: watermark ---- */
+  .b .rangoli { width: 560px; height: 560px; top: 90px; left: 50%; transform: translateX(-50%); opacity: 0.09; }
+
+  /* ---- Concept C: bottom-edge accent (recommended) ---- */
+  .c .aurora-1 { width: 200px; height: 200px; top: -50px; left: -60px; background: var(--saffron); opacity: 0.22; }
+  .c .aurora-2 { width: 220px; height: 220px; top: 70px; right: -90px; background: radial-gradient(circle, var(--rani), var(--violet)); opacity: 0.18; }
+  .c .band {
+    position: absolute; left: 0; right: 0; bottom: 64px; height: 36%; z-index: 1;
+    opacity: 0.55;
+    -webkit-mask-image: linear-gradient(to top, #000 55%, transparent);
+    mask-image: linear-gradient(to top, #000 55%, transparent);
+    overflow: hidden;
+  }
+  .c .band .rangoli { width: 420px; height: 420px; right: -130px; bottom: -180px; }
+  .safe-line {
+    position: absolute; left: 0; right: 0; top: 55%; z-index: 6;
+    border-top: 2px dashed rgba(15, 168, 107, 0.55);
+  }
+  .safe-line::after {
+    content: "content-safe zone ↑ / decoration ↓";
+    position: absolute; right: 8px; top: 4px;
+    font-size: 9px; letter-spacing: 0.08em; color: #0fa36b; font-weight: 700;
+  }
+</style>
+</head>
+<body>
+  <h1>Thayya — mobile hero explorations</h1>
+  <p class="intro">
+    Design review response: the dotted rangoli overpowered the hero copy on mobile.
+    Three concepts at 390×844 (scaled). Concept C is the recommendation and is what is
+    implemented in the product: content owns the top of the viewport, the rangoli becomes a
+    masked bottom-edge accent, the primary call to action is full-width and dominant.
+    Full rationale: <code>UI-UX.md</code>, Addendum v3.0 (A8).
+  </p>
+
+  <div class="row">
+    <!-- ============ CONCEPT A ============ -->
+    <div class="concept">
+      <h2>Concept A — Minimal</h2>
+      <div class="verdict lose">Readable, but loses the brand signature</div>
+      <div class="phone"><div class="screen a">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="navbar"><span class="wordmark">Thayya</span><span class="burger"><span></span><span></span><span></span></span></div>
+        <div class="content">
+          <div class="headline">Move.<br /><span class="grad">Rise.</span><br />Shine.</div>
+          <p class="sub">Movement rooted in Indian rhythms. Find your beat, your people, your power — one class at a time.</p>
+          <div class="cta-primary">Book a class</div>
+          <div class="cta-secondary"><span>Become an instructor</span></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>40+</b><i>cities</i></div>
+          <div class="stat"><b>1,200+</b><i>instructors</i></div>
+          <div class="stat"><b>∞</b><i>rhythm</i></div>
+        </div>
+      </div></div>
+      <p class="note">Cream paper + soft mesh only. Maximum readability and fastest paint,
+      but the hero loses its three-dimensional signature and reads generic against the
+      vibrant chapters below it.</p>
+    </div>
+
+    <!-- ============ CONCEPT B ============ -->
+    <div class="concept">
+      <h2>Concept B — Watermark (5–10%)</h2>
+      <div class="verdict lose">Still texture behind glyphs, no longer a feature</div>
+      <div class="phone"><div class="screen b">
+        <div class="rangoli"></div>
+        <div class="navbar"><span class="wordmark">Thayya</span><span class="burger"><span></span><span></span><span></span></span></div>
+        <div class="content">
+          <div class="headline">Move.<br /><span class="grad">Rise.</span><br />Shine.</div>
+          <p class="sub">Movement rooted in Indian rhythms. Find your beat, your people, your power — one class at a time.</p>
+          <div class="cta-primary">Book a class</div>
+          <div class="cta-secondary"><span>Become an instructor</span></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>40+</b><i>cities</i></div>
+          <div class="stat"><b>1,200+</b><i>instructors</i></div>
+          <div class="stat"><b>∞</b><i>rhythm</i></div>
+        </div>
+      </div></div>
+      <p class="note">The mandala stays full-bleed at ~8% opacity. At that level the dots
+      read as paper noise rather than pattern — the artwork stops being a feature yet
+      still adds texture directly behind the copy. Worst of both worlds.</p>
+    </div>
+
+    <!-- ============ CONCEPT C ============ -->
+    <div class="concept">
+      <h2>Concept C — Bottom-edge accent</h2>
+      <div class="verdict win">✓ Recommended &amp; implemented</div>
+      <div class="phone"><div class="screen c">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="band"><div class="rangoli"></div></div>
+        <div class="safe-line"></div>
+        <div class="navbar"><span class="wordmark">Thayya</span><span class="burger"><span></span><span></span><span></span></span></div>
+        <div class="content">
+          <div class="headline">Move.<br /><span class="grad">Rise.</span><br />Shine.</div>
+          <p class="sub">Movement rooted in Indian rhythms. Find your beat, your people, your power — one class at a time.</p>
+          <div class="cta-primary">Book a class</div>
+          <div class="cta-secondary"><span>Become an instructor</span></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>40+</b><i>cities</i></div>
+          <div class="stat"><b>1,200+</b><i>instructors</i></div>
+          <div class="stat"><b>∞</b><i>rhythm</i></div>
+        </div>
+      </div></div>
+      <p class="note">Content owns the top ~55% on a soft brand wash; the living rangoli
+      survives as a corner accent in a masked bottom band that fades to zero before the
+      copy. Readability is guaranteed structurally (a mask), not tuned (an opacity guess) —
+      and the desktop split layout uses the same content-column / artwork-zone model.</p>
+    </div>
+  </div>
+</body>
+</html>

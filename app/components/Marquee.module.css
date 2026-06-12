@@ -1,13 +1,31 @@
-/* §10.2 Marquee strip — outlined ink display type, hairlines above/below */
+/* §10.2 Marquee strip — one outlined ink row, one living-gradient row,
+   hairlines above/below, faint festival wash behind (Utsav A5) */
 
 .strip {
+  position: relative;
   border-top: 1px solid var(--hairline);
   border-bottom: 1px solid var(--hairline);
   padding-block: var(--s4);
   overflow: hidden;
 }
 
+/* faint horizontal saffron→rani→teal band behind the rows */
+.wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--saffron) 6%, transparent),
+    color-mix(in srgb, var(--rani) 6%, transparent) 50%,
+    color-mix(in srgb, var(--teal) 6%, transparent)
+  );
+}
+
 .rows {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: var(--s2);
@@ -43,6 +61,17 @@
     color: transparent;
     -webkit-text-stroke: 1px var(--ink);
   }
+}
+
+/* Living gradient variant — re-assert the text clip, because the global
+   .gradient-live background shorthand resets background-clip (same fix
+   as FooterCta). Kept after the @supports block so it also wins the
+   stroke override at equal specificity. */
+.rowInner .gradientWord {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 0;
 }
 
 .tamilWord {

@@ -10,10 +10,22 @@ import styles from "./Classes.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// gradient partner per card accent — numerals fill accent → neighbour
+// brand color (Utsav A5: "numerals gradient-filled")
+const NUM_GRADIENT_TO = {
+  "var(--saffron)": "var(--rani)",
+  "var(--rani)": "var(--violet)",
+  "var(--violet)": "var(--peacock)",
+  "var(--teal)": "var(--emerald)",
+  "var(--vermilion)": "var(--marigold)",
+  "var(--marigold)": "var(--saffron)",
+};
+
 /**
  * §10.4 Classes — the pinned horizontal rail, the page's biggest grid-break.
  * Desktop: viewport pins, six cards scrub right→left across ~2.5 viewports.
  * Mobile / reduced motion: native horizontal scroll-snap, no pin.
+ * Utsav A5: tinted glass cards with in-card accent auroras + film grain.
  */
 export default function Classes() {
   const ref = useRef(null);
@@ -78,6 +90,7 @@ export default function Classes() {
 
   return (
     <section id="classes" className={`chapter ${styles.section}`} ref={ref}>
+      <div className="grain" aria-hidden="true" />
       <div className="wrap">
         <SectionHeader overline={CLASSES.overline} tamil={CLASSES.tamil} />
         <h2 className={`display ${styles.title}`}>
@@ -101,9 +114,16 @@ export default function Classes() {
           {CLASSES.items.map((item) => (
             <li
               key={item.num}
-              className={`${styles.card} gopuram-corner`}
-              style={{ "--accent": item.accent }}
+              className={`${styles.card} glass gopuram-corner`}
+              style={{
+                "--accent": item.accent,
+                "--accent2": NUM_GRADIENT_TO[item.accent] || "var(--rani)",
+              }}
             >
+              {/* small accent aurora glowing in the card's top area */}
+              <span className={styles.cardAurora} aria-hidden="true">
+                <span className="aurora" />
+              </span>
               <span className={styles.cardNum} aria-hidden="true">
                 {item.num}
               </span>

@@ -174,9 +174,10 @@ function detectEnvironment() {
     // halve particle count below 768px (checked once on mount)
     count: mobile ? 12000 : 24000,
     // large + right-weighted on desktop (edge-clipped feels intentional);
-    // centered behind the type on mobile
-    radius: mobile ? 2.6 : 3.6,
-    offset: mobile ? [0, 0.4, 0] : [1.15, 0.1, 0],
+    // on mobile the canvas is a bottom-edge band (A8) — weight the
+    // mandala toward the bottom-right corner as an accent
+    radius: mobile ? 2.2 : 3.6,
+    offset: mobile ? [1.8, -0.9, 0] : [1.15, 0.1, 0],
   };
 }
 

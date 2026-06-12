@@ -1,4 +1,4 @@
-/* §10.4 Classes — pinned horizontal rail */
+/* §10.4 Classes — pinned horizontal rail; Utsav A5 tinted-glass cards */
 
 .section {
   overflow: hidden;
@@ -78,51 +78,73 @@
   white-space: nowrap;
 }
 
-/* ---------- card anatomy ---------- */
+/* ---------- card anatomy (Utsav A5: tinted glass + accent aurora) ---------- */
 
 .card {
+  position: relative;
   flex: 0 0 auto;
   width: 420px;
   height: 560px;
-  background: var(--paper-deep);
   padding: var(--s5);
   display: flex;
   flex-direction: column;
   scroll-snap-align: start;
-  transition: transform var(--dur-micro) var(--ease-beat);
+  /* the gopuram clip-path would clip a box-shadow, so the lift shadow
+     lives in a drop-shadow filter (applied after clipping) */
+  filter: drop-shadow(0 10px 24px rgba(20, 16, 46, 0.08));
+  transition: transform var(--dur-micro) var(--ease-beat), filter 0.3s ease;
 }
 
 @media (hover: hover) {
   .card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-10px);
+    filter: drop-shadow(
+      0 22px 36px color-mix(in srgb, var(--accent) 32%, transparent)
+    );
   }
 }
 
+/* small accent aurora glowing in the card's top area (clipped by the card) */
+.cardAurora {
+  position: absolute;
+  top: -12%;
+  right: -10%;
+  width: 75%;
+  height: 48%;
+  pointer-events: none;
+}
+.cardAurora :global(.aurora) {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, var(--accent), transparent 65%);
+  opacity: 0.28;
+  filter: blur(44px); /* card-scale blur, tighter than the global 90px */
+}
+
 .cardNum {
+  position: relative;
   font-family: var(--font-display);
   font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
   font-size: 150px;
   line-height: 0.9;
   letter-spacing: -0.02em;
-  /* solid fallback when text-stroke is unsupported */
+  /* solid fallback when background-clip: text is unsupported */
   color: var(--accent);
   user-select: none;
 }
 
-@supports (-webkit-text-stroke: 1px currentcolor) {
+/* gradient-filled numeral: card accent → neighbouring brand color */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .cardNum {
+    background-image: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
-    -webkit-text-stroke: 1.5px var(--accent);
-    transition: color var(--dur-micro) ease;
-  }
-  @media (hover: hover) {
-    .card:hover .cardNum {
-      color: var(--accent);
-    }
   }
 }
 
 .cardBody {
+  position: relative; /* keeps copy painted above the card aurora */
   margin-top: auto;
   display: flex;
   flex-direction: column;

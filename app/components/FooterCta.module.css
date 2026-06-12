@@ -1,4 +1,4 @@
-﻿/* CTA + Footer â€” the single dark chapter (UI-UX.md Â§10.10) */
+/* CTA + Footer — the single dark chapter (UI-UX.md §10.10) */
 
 .section {
   position: relative;
@@ -177,7 +177,7 @@
   opacity: 0.6;
 }
 
-/* tiny tricolor hairline under "India" â€” saffron / paper / green */
+/* tiny tricolor hairline under "India" — saffron / paper / green */
 .india {
   position: relative;
   display: inline-block;
@@ -192,7 +192,7 @@
   background: var(--saffron);
   box-shadow:
     0 3px 0 var(--paper),
-    0 6px 0 #2e7d4f; /* tricolor green â€” sanctioned exception */
+    0 6px 0 #2e7d4f; /* tricolor green — sanctioned exception */
 }
 
 /* ---------- motto strip ---------- */
