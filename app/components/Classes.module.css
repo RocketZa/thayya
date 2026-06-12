@@ -1,0 +1,191 @@
+/* §10.4 Classes — pinned horizontal rail */
+
+.section {
+  overflow: hidden;
+}
+
+.title {
+  font-size: var(--type-h2);
+  margin-bottom: var(--s6);
+}
+
+/* ---------- the rail ----------
+   Default (no JS / reduced motion / mobile): native scroll-snap track.
+   .isPinned (desktop + motion, added by JS): pinned full-viewport stage. */
+
+.rail {
+  position: relative;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.isPinned {
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-type: none;
+}
+
+.track {
+  display: flex;
+  gap: var(--s4);
+  width: max-content;
+  padding-inline: var(--margin);
+  padding-block: var(--s3);
+  will-change: transform;
+}
+
+/* ---------- progress UI (pinned mode only) ---------- */
+
+.progress {
+  display: none;
+}
+
+.isPinned .progress {
+  position: absolute;
+  top: var(--s5);
+  left: var(--margin);
+  right: var(--margin);
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+}
+
+.progressLine {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0;
+  background: var(--thayya-gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.counter {
+  font-family: var(--font-display);
+  font-size: var(--type-lead);
+  font-variant-numeric: lining-nums;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ---------- card anatomy ---------- */
+
+.card {
+  flex: 0 0 auto;
+  width: 420px;
+  height: 560px;
+  background: var(--paper-deep);
+  padding: var(--s5);
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  transition: transform var(--dur-micro) var(--ease-beat);
+}
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-6px);
+  }
+}
+
+.cardNum {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
+  font-size: 150px;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  /* solid fallback when text-stroke is unsupported */
+  color: var(--accent);
+  user-select: none;
+}
+
+@supports (-webkit-text-stroke: 1px currentcolor) {
+  .cardNum {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+    transition: color var(--dur-micro) ease;
+  }
+  @media (hover: hover) {
+    .card:hover .cardNum {
+      color: var(--accent);
+    }
+  }
+}
+
+.cardBody {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.cardTitle {
+  font-size: var(--type-h3);
+  font-weight: 500;
+}
+
+.cardSub {
+  font-family: var(--font-body);
+  color: var(--ink-soft);
+  font-size: 17px;
+}
+
+.cardRule {
+  display: block;
+  height: 1px;
+  background: var(--accent);
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s2);
+  align-self: flex-start;
+  font-size: 16px;
+}
+
+.cardPaisley {
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity var(--dur-micro) ease,
+    transform var(--dur-micro) var(--ease-beat);
+}
+
+@media (hover: hover) {
+  .card:hover .cardPaisley {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ---------- responsive ---------- */
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .card {
+    width: 380px;
+    height: 520px;
+  }
+}
+
+@media (max-width: 767px) {
+  .card {
+    width: 80vw;
+    height: 480px;
+    padding: var(--s4);
+  }
+  .cardNum {
+    font-size: 110px;
+  }
+}

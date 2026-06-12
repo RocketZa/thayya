@@ -1,0 +1,89 @@
+/* §10.5 Pathways — three editorial columns with hairline rules */
+
+.section {
+  position: relative;
+}
+
+.title {
+  font-size: var(--type-h2);
+  margin-bottom: var(--s6);
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.col {
+  padding: var(--s5);
+  border-left: 1px solid var(--hairline);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  transition: background-color var(--dur-micro) ease,
+    border-color var(--dur-micro) ease;
+}
+
+.col:first-child {
+  border-left: 0;
+}
+
+/* hover: tint the column, shift its rules to the accent (desktop only) */
+@media (hover: hover) {
+  .col:hover {
+    background: var(--paper-deep);
+    border-color: var(--accent);
+  }
+}
+
+.colOverline {
+  color: var(--accent);
+}
+
+.colTitle {
+  font-size: var(--type-h3);
+  font-weight: 500;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+
+.bullet {
+  flex: 0 0 auto;
+  margin-top: 6px;
+  color: var(--accent);
+}
+
+.cta {
+  margin-top: auto;
+  padding-top: var(--s3);
+  align-self: flex-start;
+  font-size: 16px;
+}
+
+/* ≤1023px — columns stack with horizontal hairlines between */
+@media (max-width: 1023px) {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+  .col {
+    border-left: 0;
+    border-top: 1px solid var(--hairline);
+    padding-inline: 0;
+  }
+  .col:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+}

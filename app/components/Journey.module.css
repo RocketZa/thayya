@@ -1,0 +1,190 @@
+/* Journey — kolam timeline (UI-UX.md §10.6) */
+
+.section {
+  overflow: hidden;
+}
+
+/* ---------- sunrise atmosphere (Utsav A5) ---------- */
+
+/* parallax wrapper: GSAP scrubs the wrapper so the global .aurora
+   drift animation (which owns the child's transform) never conflicts */
+.orb {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+.orb :global(.aurora) {
+  position: absolute;
+  inset: 0;
+}
+
+.orbA {
+  width: 46vw;
+  height: 46vw;
+  top: -6%;
+  left: -12%;
+}
+.orbA :global(.aurora) {
+  background: radial-gradient(circle, var(--marigold), transparent 65%);
+}
+
+.orbB {
+  width: 38vw;
+  height: 38vw;
+  top: 32%;
+  right: -14%;
+}
+.orbB :global(.aurora) {
+  background: radial-gradient(circle, var(--saffron), transparent 65%);
+  opacity: 0.4;
+  animation-delay: -6s;
+}
+
+.orbC {
+  width: 34vw;
+  height: 34vw;
+  bottom: -8%;
+  left: 16%;
+}
+.orbC :global(.aurora) {
+  background: radial-gradient(circle, var(--marigold), transparent 65%);
+  opacity: 0.35;
+  animation-delay: -12s;
+}
+
+.ghost {
+  top: var(--s7);
+  right: -0.12em;
+}
+
+.title {
+  font-size: var(--type-h2);
+  font-weight: 420;
+  max-width: 14ch;
+  margin-bottom: var(--s7);
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- timeline ---------- */
+
+.timeline {
+  --rail: clamp(96px, 18vw, 220px); /* the left third holds the kolam line */
+  position: relative;
+  z-index: 1;
+}
+
+.kolamLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--rail);
+  height: 100%;
+  overflow: visible;
+}
+
+.steps {
+  display: grid;
+  grid-auto-rows: 1fr; /* 4 equal rows — node centers match the SVG loops */
+}
+
+.step {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  align-items: center;
+  min-height: clamp(200px, 26vh, 300px);
+}
+
+.rail {
+  position: relative;
+  height: 100%;
+}
+
+/* marigold node — 8px solid dot on the line (glow ring via global .glow) */
+.dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--marigold);
+}
+
+.body {
+  padding-block: var(--s5);
+  max-width: 52ch;
+}
+
+/* steps alternate: even steps shift right of the line for editorial rhythm */
+.step:nth-child(even) .body {
+  margin-left: clamp(0px, 8vw, 160px);
+}
+
+.num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--saffron);
+  margin-bottom: var(--s2);
+}
+
+.stepTitle {
+  font-size: var(--type-h3);
+  font-weight: 500;
+  margin-bottom: var(--s3);
+}
+
+.stepText {
+  color: var(--ink-soft);
+  max-width: 38ch;
+}
+
+/* ---------- marigold→saffron sunrise arc behind the last node ---------- */
+
+.arc {
+  position: absolute;
+  bottom: 0;
+  left: calc(var(--rail) * -0.4);
+  width: clamp(280px, 36vw, 520px);
+  height: clamp(140px, 18vw, 260px);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: radial-gradient(
+    circle at 50% 100%,
+    var(--marigold) 0%,
+    var(--saffron) 42%,
+    transparent 72%
+  );
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1023px) {
+  .timeline {
+    --rail: clamp(64px, 10vw, 120px);
+  }
+}
+
+@media (max-width: 767px) {
+  .timeline {
+    --rail: 40px; /* timeline hugs the left edge */
+  }
+  .step:nth-child(even) .body {
+    margin-left: 0;
+  }
+  .step {
+    min-height: 0;
+  }
+  .body {
+    padding-block: var(--s5);
+  }
+  .ghost {
+    font-size: 12vw;
+  }
+}

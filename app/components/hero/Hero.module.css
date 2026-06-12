@@ -1,0 +1,318 @@
+/* ============================================================
+   THAYYA hero layout — UI-UX.md §10.1 + ADDENDUM A5/A7 ("Utsav")
+   Tokens only (§3–§5, A3)
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  /* cream background inherited from body (--paper) */
+}
+
+/* ---------- aurora atmosphere (A4): blobs under everything ---------- */
+.auroraSaffron {
+  top: -10%;
+  left: -8%;
+  width: clamp(280px, 38vw, 560px);
+  aspect-ratio: 1;
+  background: var(--saffron);
+  z-index: 0;
+  animation-delay: -4s;
+}
+
+.auroraRani {
+  top: 10%;
+  right: -12%;
+  width: clamp(320px, 46vw, 660px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 40% 40%, var(--rani), var(--violet));
+  z-index: 0;
+  animation-delay: -11s;
+}
+
+/* ---------- rangoli canvas: behind content, right-weighted ---------- */
+.canvasWrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 66%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---------- filmic grain over the whole chapter (A4) ---------- */
+.grainLayer {
+  z-index: 6;
+  opacity: 0.4;
+}
+
+/* ---------- floating ornaments (A7) ---------- */
+.ornament {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.ornPaisley {
+  top: 17%;
+  right: 11%;
+  color: var(--marigold);
+  animation-delay: -1.5s;
+}
+
+.ornKolam {
+  bottom: 34%;
+  right: 36%;
+  color: var(--teal);
+  animation-delay: -3.5s;
+}
+
+.ornDot {
+  top: 26%;
+  left: 54%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--thayya-gradient);
+  animation-delay: -5.5s;
+}
+
+/* ---------- content ---------- */
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-top: var(--s7);
+  padding-bottom: calc(var(--s8) + var(--s5));
+}
+
+/* outlined echo of the wordmark behind the h1 (A5) —
+   hairline ink stroke at low opacity, parallax-driven by GSAP */
+.echo {
+  position: absolute;
+  top: -0.06em;
+  left: -2vw;
+  z-index: -1; /* behind .inner content, above the canvas layer */
+  font-size: clamp(180px, 26vw, 420px);
+  line-height: 1;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--ink) 60%, transparent);
+  opacity: 0.1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.title {
+  font-size: var(--type-hero);
+  font-weight: 380;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+}
+
+.title [data-hero-line] {
+  will-change: transform;
+}
+
+/* living gradient on the italic word — re-asserts the text clip so the
+   global .gradient-live shorthand can never paint a box over the glyphs */
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.gradientWord {
+  background-image: linear-gradient(
+    110deg,
+    var(--saffron),
+    var(--vermilion),
+    var(--rani),
+    var(--violet),
+    var(--peacock),
+    var(--teal),
+    var(--saffron)
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 9s ease-in-out infinite;
+}
+
+.sub {
+  position: relative;
+  max-width: 44ch;
+  margin-top: var(--s5);
+}
+
+/* faint paper radial backdrop — legibility is sacred where the
+   sub copy overlaps the mandala */
+.sub::before {
+  content: "";
+  position: absolute;
+  inset: -16px -36px;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse closest-side,
+    color-mix(in srgb, var(--paper) 80%, transparent),
+    transparent
+  );
+}
+
+.ctas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s5);
+  margin-top: var(--s5);
+}
+
+/* ---------- vertical marginalia, far-left margin ---------- */
+.marginalia {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--margin) / 2);
+  z-index: 1;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  transform: translate(-50%, -50%) rotate(90deg);
+  pointer-events: none;
+}
+
+/* ---------- scroll cue (≈96 BPM = 0.625s/beat) ---------- */
+.scrollCue {
+  position: absolute;
+  left: var(--margin);
+  bottom: calc(var(--s7) + var(--s5));
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  color: var(--ink-soft);
+}
+
+.cueDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--marigold);
+  animation: beat 0.625s ease-in-out infinite;
+}
+
+@keyframes beat {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.55);
+    opacity: 0.55;
+  }
+}
+
+/* ---------- bottom edge: kolam strip + stat strip ---------- */
+.bottom {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 1;
+}
+
+.kolam {
+  top: auto;
+  height: 140px;
+  mask-image: linear-gradient(to top, rgb(0 0 0), transparent);
+  -webkit-mask-image: linear-gradient(to top, rgb(0 0 0), transparent);
+}
+
+.stats {
+  position: relative;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: var(--s4) var(--margin) var(--s5);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4) clamp(var(--s5), 6vw, var(--s7));
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.statValue {
+  font-size: clamp(26px, 3vw, 42px);
+  line-height: 1;
+}
+
+.statLabel {
+  color: var(--ink-soft);
+}
+
+/* ---------- responsive (UI-UX.md §12) ---------- */
+@media (max-width: 1023px) {
+  .marginalia {
+    display: none;
+  }
+
+  .echo {
+    font-size: clamp(140px, 22vw, 300px);
+  }
+}
+
+@media (max-width: 767px) {
+  /* mandala centers full-bleed behind the type */
+  .canvasWrap {
+    width: 100%;
+    left: 0;
+  }
+
+  /* echo hidden, ornaments reduced to one */
+  .echo {
+    display: none;
+  }
+
+  .ornPaisley,
+  .ornKolam {
+    display: none;
+  }
+
+  .ornDot {
+    top: 20%;
+    left: auto;
+    right: 14%;
+  }
+
+  .inner {
+    padding-bottom: var(--s8);
+  }
+
+  .scrollCue {
+    bottom: calc(var(--s7) + var(--s4));
+  }
+
+  .kolam {
+    height: 100px;
+  }
+
+  .stats {
+    padding-block: var(--s3) var(--s4);
+  }
+
+  .statValue {
+    font-size: 24px;
+  }
+}

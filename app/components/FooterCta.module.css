@@ -1,0 +1,230 @@
+﻿/* CTA + Footer â€” the single dark chapter (UI-UX.md Â§10.10) */
+
+.section {
+  position: relative;
+  background: var(--midnight);
+  color: var(--paper);
+  overflow: hidden;
+}
+
+/* ---------- midnight aurora nebulae (Utsav A5) ---------- */
+
+/* parallax wrappers: GSAP scrubs these so the global .aurora drift
+   animation keeps ownership of the child's transform */
+.orb {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+.orb :global(.aurora) {
+  position: absolute;
+  inset: 0;
+}
+
+.orbA {
+  width: 52vw;
+  height: 52vw;
+  top: -18%;
+  left: -14%;
+}
+.orbA :global(.aurora) {
+  background: radial-gradient(circle, var(--violet), transparent 65%);
+  opacity: 0.35;
+}
+
+.orbB {
+  width: 46vw;
+  height: 46vw;
+  top: 2%;
+  right: -16%;
+}
+.orbB :global(.aurora) {
+  background: radial-gradient(circle, var(--rani), transparent 65%);
+  opacity: 0.28;
+  animation-delay: -6s;
+}
+
+.orbC {
+  width: 44vw;
+  height: 44vw;
+  bottom: -16%;
+  left: 22%;
+}
+.orbC :global(.aurora) {
+  background: radial-gradient(circle, var(--peacock), transparent 65%);
+  opacity: 0.25;
+  animation-delay: -12s;
+}
+
+/* kolam dots, paper-toned, low opacity; oversized so the drift loop
+   never reveals an edge */
+.dots {
+  inset: -40px 0;
+  background-image: radial-gradient(
+    rgba(250, 248, 244, 0.12) 1.4px,
+    transparent 1.5px
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 35%,
+    black 0%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 35%,
+    black 0%,
+    transparent 100%
+  );
+  will-change: transform;
+}
+
+/* ---------- CTA ---------- */
+
+.cta {
+  position: relative;
+  text-align: center;
+  padding-block: var(--s8) var(--s7);
+}
+
+.ctaTitle {
+  font-size: calc(var(--type-h2) * 1.2);
+  font-weight: 420;
+}
+
+/* the living gradient word — re-assert the text clip, because the global
+   .gradient-live background shorthand resets background-clip */
+.ctaTitle :global(.gradient-live) {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ctaSub {
+  margin-top: var(--s4);
+  font-size: var(--type-lead);
+  color: var(--paper);
+  opacity: 0.6;
+}
+
+.ctaBtn {
+  margin-top: var(--s5);
+}
+
+/* saffron/rani glow ring on hover (the .glow recipe, hover-gated;
+   extra specificity so it beats .btn.inverted:hover) */
+.section .cta .ctaBtn:hover {
+  box-shadow: 0 0 24px 2px rgba(246, 105, 23, 0.35),
+    0 0 64px 8px rgba(189, 35, 162, 0.25),
+    0 14px 44px rgba(246, 105, 23, 0.4);
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  position: relative;
+  border-top: 1px solid rgba(212, 164, 55, 0.35); /* gold-tinted hairline */
+  padding-block: var(--s6) var(--s4);
+}
+
+/* paisley divider terminal sitting on the footer rule */
+.paisleyMark {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0 var(--s3);
+  background: var(--midnight);
+  color: var(--gold);
+  opacity: 0.7;
+  line-height: 0;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: var(--s5);
+}
+
+.wordmark {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s3) var(--s4);
+}
+
+.navLink {
+  color: var(--paper);
+  font-size: 14px;
+}
+
+.colophon {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--s3);
+}
+
+.copyright {
+  font-size: 13px;
+  color: var(--paper);
+  opacity: 0.6;
+}
+
+/* tiny tricolor hairline under "India" â€” saffron / paper / green */
+.india {
+  position: relative;
+  display: inline-block;
+}
+
+.tricolor {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 2px);
+  width: 24px;
+  height: 1.5px;
+  background: var(--saffron);
+  box-shadow:
+    0 3px 0 var(--paper),
+    0 6px 0 #2e7d4f; /* tricolor green â€” sanctioned exception */
+}
+
+/* ---------- motto strip ---------- */
+
+.motto {
+  margin-top: var(--s6);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em; /* optically recenter tracked-out caps */
+  color: var(--paper);
+  opacity: 0.4;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 767px) {
+  .footerGrid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: var(--s5);
+  }
+  .colophon {
+    align-items: center;
+  }
+  .india .tricolor {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .cta {
+    padding-block: var(--s7) var(--s6);
+  }
+}

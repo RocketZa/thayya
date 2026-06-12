@@ -1,0 +1,450 @@
+/* ============================================================
+   THAYYA — design tokens & base styles
+   Source of truth: UI-UX.md §3–§5
+   ============================================================ */
+
+:root {
+  /* brand spectrum — official palette (Coolors, June 2026) */
+  --saffron: #f66917;
+  --vermilion: #f04226;
+  --rani: #bd23a2;
+  --violet: #9f26a7;
+  --teal: #07aeae;
+
+  /* supporting festival tones (v2 "Utsav" direction) */
+  --marigold: #ffb627;
+  --peacock: #0e86c4;
+  --indigo: #34208c;
+  --emerald: #0fa36b;
+  --gold: #d4a437;
+  --midnight: #14102e; /* dark chapters: deep indigo night, not flat black */
+
+  /* neutrals */
+  --paper: #faf8f4;
+  --paper-deep: #f1ede5;
+  --ink: #0f1112;
+  --ink-soft: #5f5d59;
+  --hairline: rgba(15, 17, 18, 0.14);
+  --kolam-dot: rgba(15, 17, 18, 0.22);
+
+  --thayya-gradient: linear-gradient(
+    100deg,
+    #f66917 0%,
+    #f04226 25%,
+    #bd23a2 50%,
+    #9f26a7 72%,
+    #07aeae 100%
+  );
+
+  /* spacing — golden-ish progression */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 16px;
+  --s4: 24px;
+  --s5: 40px;
+  --s6: 64px;
+  --s7: 104px;
+  --s8: 168px;
+
+  /* layout */
+  --maxw: 1360px;
+  --gutter: clamp(16px, 2vw, 32px);
+  --margin: clamp(20px, 4.5vw, 72px);
+  --chapter-gap: clamp(96px, 14vh, 200px);
+
+  /* type scale */
+  --type-hero: clamp(64px, 11vw, 170px);
+  --type-h2: clamp(44px, 6.5vw, 96px);
+  --type-h3: clamp(28px, 3vw, 44px);
+  --type-lead: clamp(19px, 1.6vw, 24px);
+  --type-label: 13px;
+
+  /* motion */
+  --ease-beat: cubic-bezier(0.62, 0.05, 0.01, 0.99);
+  --dur-micro: 200ms;
+  --dur-reveal: 1s;
+
+  /* fonts injected by next/font in layout.jsx */
+  --font-display: var(--font-fraunces), georgia, serif;
+  --font-body: var(--font-hanken), system-ui, sans-serif;
+  --font-tamil: var(--font-anek-tamil), sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html.lenis {
+  height: auto;
+  scroll-behavior: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  /* never flat: a faint festival mesh breathes under everything */
+  background-color: var(--paper);
+  background-image: radial-gradient(
+      ellipse 50% 40% at 12% 8%,
+      rgba(246, 105, 23, 0.07),
+      transparent 70%
+    ),
+    radial-gradient(ellipse 45% 38% at 88% 22%, rgba(189, 35, 162, 0.06), transparent 70%),
+    radial-gradient(ellipse 55% 45% at 80% 85%, rgba(7, 174, 174, 0.06), transparent 70%),
+    radial-gradient(ellipse 40% 35% at 8% 70%, rgba(159, 38, 167, 0.05), transparent 70%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+button {
+  font: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+ul {
+  list-style: none;
+}
+
+::selection {
+  background: var(--rani);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+/* ---------- layout helpers ---------- */
+.wrap {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+
+.chapter {
+  padding-block: calc(var(--chapter-gap) / 2);
+  position: relative;
+}
+
+/* ---------- typography helpers ---------- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
+}
+
+.display-italic {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 40, "WONK" 1;
+}
+
+.gradient-text {
+  background: var(--thayya-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: var(--type-label);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.tamil {
+  font-family: var(--font-tamil);
+  color: var(--ink-soft);
+}
+
+.lead {
+  font-size: var(--type-lead);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* ghost numerals — grid-breaking section indices */
+.ghost-numeral {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(120px, 22vw, 340px);
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* ---------- reveal primitives (GSAP targets) ---------- */
+.line-mask {
+  overflow: hidden;
+  display: block;
+}
+.line-mask > * {
+  display: block;
+}
+/* hide-for-reveal only when JS is present (html.js set in layout) */
+html.js .line-mask > * {
+  transform: translateY(110%);
+}
+
+/* ---------- kolam dot lattice ---------- */
+.kolam-field {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--kolam-dot) 1.4px, transparent 1.5px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+
+/* ---------- v2 "Utsav" atmosphere kit ---------- */
+
+/* soft glowing color blob — position/size/color via inline style or module */
+.aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  pointer-events: none;
+  will-change: transform;
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift {
+  from {
+    transform: translate3d(-4%, -6%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(5%, 7%, 0) scale(1.18);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+.float {
+  animation: float-y 7s ease-in-out infinite;
+}
+
+@keyframes slow-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* morphing gradient text/surfaces */
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.gradient-live {
+  background: linear-gradient(
+    110deg,
+    var(--saffron),
+    var(--vermilion),
+    var(--rani),
+    var(--violet),
+    var(--peacock),
+    var(--teal),
+    var(--saffron)
+  );
+  background-size: 300% 300%;
+  animation: gradient-shift 9s ease-in-out infinite;
+}
+
+/* frosted glass card on light + dark surfaces */
+.glass {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 12px 40px rgba(20, 16, 46, 0.08);
+}
+.glass-dark {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* fine film grain so color fields never feel synthetic-flat */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* glow ring for accents */
+.glow {
+  box-shadow: 0 0 24px 2px rgba(246, 105, 23, 0.35),
+    0 0 64px 8px rgba(189, 35, 162, 0.18);
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 18px 34px;
+  border-radius: 999px;
+  background: linear-gradient(
+    110deg,
+    var(--saffron),
+    var(--vermilion) 35%,
+    var(--rani) 70%,
+    var(--violet)
+  );
+  background-size: 220% 220%;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--dur-micro) var(--ease-beat),
+    box-shadow 0.3s ease, background-position 0.5s ease;
+  box-shadow: 0 8px 28px rgba(240, 66, 38, 0.35);
+  isolation: isolate;
+}
+.btn:hover {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(189, 35, 162, 0.45);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn.inverted {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+.btn.inverted:hover {
+  box-shadow: 0 14px 44px rgba(246, 105, 23, 0.4);
+}
+
+/* text links with gradient underline sweep */
+.link-sweep {
+  position: relative;
+  font-weight: 700;
+  padding-bottom: 4px;
+}
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1.5px;
+  width: 100%;
+  background: var(--thayya-gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s var(--ease-beat);
+}
+.link-sweep:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------- section header device ---------- */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s4);
+  margin-bottom: var(--s6);
+}
+.section-head .rule {
+  flex: 1;
+  height: 1px;
+  background: var(--hairline);
+  transform-origin: left;
+}
+.section-head .tamil {
+  font-size: 14px;
+}
+
+/* ---------- save tag (gopuram step corner) ---------- */
+.tag-save {
+  display: inline-block;
+  background: var(--vermilion);
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  clip-path: polygon(
+    0 0, calc(100% - 12px) 0, calc(100% - 12px) 6px, 100% 6px,
+    100% 100%, 0 100%
+  );
+}
+
+/* gopuram stepped corner for media/cards */
+.gopuram-corner {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 36px) 0,
+    calc(100% - 36px) 12px,
+    calc(100% - 24px) 12px,
+    calc(100% - 24px) 24px,
+    calc(100% - 12px) 24px,
+    calc(100% - 12px) 36px,
+    100% 36px,
+    100% 100%,
+    0 100%
+  );
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .line-mask > * {
+    transform: none;
+  }
+}

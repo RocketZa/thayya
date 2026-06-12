@@ -1,0 +1,160 @@
+/* Community — "The tribe" asymmetric quote collage, dusk chapter (Utsav A5) */
+
+/* very light violet→indigo dusk wash over the section */
+.section {
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(159, 38, 167, 0.07),
+    rgba(52, 32, 140, 0.07)
+  );
+}
+
+/* content stacks above the ornaments */
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- dusk ornaments ---------- */
+
+/* parallax wrappers for the auroras */
+.orb {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+.orb :global(.aurora) {
+  position: absolute;
+  inset: 0;
+}
+
+.orbA {
+  width: 44vw;
+  height: 44vw;
+  top: -10%;
+  right: -14%;
+}
+.orbA :global(.aurora) {
+  background: radial-gradient(circle, var(--violet), transparent 65%);
+  opacity: 0.35;
+}
+
+.orbB {
+  width: 40vw;
+  height: 40vw;
+  bottom: -12%;
+  left: -12%;
+}
+.orbB :global(.aurora) {
+  background: radial-gradient(circle, var(--peacock), transparent 65%);
+  opacity: 0.3;
+  animation-delay: -8s;
+}
+
+/* large faint Tamil syllable drifting behind the quotes */
+.syllable {
+  position: absolute;
+  top: 14%;
+  right: -4vw;
+  font-size: 30vw;
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.03;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.collage {
+  display: flex;
+  flex-direction: column;
+}
+
+.quote {
+  max-width: 100%;
+}
+
+.quote + .quote {
+  margin-top: var(--s8);
+}
+
+.text {
+  font-weight: 480;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+/* quote 1 — left, biggest */
+.q1 {
+  width: 60%;
+}
+.q1 .text {
+  font-size: calc(var(--type-h3) * 1.2);
+}
+
+/* quote 2 — right-aligned, smaller */
+.q2 {
+  width: 55%;
+  margin-left: auto;
+  text-align: right;
+}
+.q2 .text {
+  font-size: calc(var(--type-h3) * 0.85);
+}
+.q2 .attribution {
+  justify-content: flex-end;
+}
+
+/* quote 3 — center-left */
+.q3 {
+  width: 70%;
+  margin-left: clamp(0px, 8vw, 140px);
+}
+.q3 .text {
+  font-size: var(--type-h3);
+}
+
+.attribution {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s4);
+  color: var(--ink-soft);
+}
+
+/* marigold dot in the quote's accent color */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.instagram {
+  display: inline-block;
+  margin-top: var(--s8);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 767px) {
+  .q1,
+  .q2,
+  .q3 {
+    width: 100%;
+    margin-left: 0;
+    text-align: left;
+  }
+  .q2 .attribution {
+    justify-content: flex-start;
+  }
+  .quote + .quote {
+    margin-top: var(--s7);
+  }
+  .instagram {
+    margin-top: var(--s7);
+  }
+}

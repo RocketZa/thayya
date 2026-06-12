@@ -1,0 +1,119 @@
+/* Film — "Feel it" media chapter (UI-UX.md §10.8) */
+
+.section {
+  overflow: hidden;
+}
+
+/* ---------- rani/violet atmosphere around the frame (Utsav A5) ---------- */
+
+.stage {
+  position: relative;
+}
+
+/* parallax wrappers for the ambient auroras */
+.orb {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+.orb :global(.aurora) {
+  position: absolute;
+  inset: 0;
+}
+
+.orbA {
+  width: 36vw;
+  height: 36vw;
+  top: -24%;
+  left: -14%;
+}
+.orbA :global(.aurora) {
+  background: radial-gradient(circle, var(--rani), transparent 65%);
+  opacity: 0.4;
+}
+
+.orbB {
+  width: 32vw;
+  height: 32vw;
+  bottom: -22%;
+  right: -12%;
+}
+.orbB :global(.aurora) {
+  background: radial-gradient(circle, var(--violet), transparent 65%);
+  opacity: 0.38;
+  animation-delay: -8s;
+}
+
+/* soft outer halo behind the gopuram frame — lives on a sibling layer
+   because the frame's clip-path would clip its own box-shadow */
+.frameGlow {
+  position: absolute;
+  inset: 4% 2%;
+  border-radius: 24px;
+  box-shadow: 0 0 120px 24px rgba(189, 35, 162, 0.35),
+    0 0 220px 64px rgba(159, 38, 167, 0.22);
+  pointer-events: none;
+}
+
+/* the animated clip wrapper — starts revealed at ~62% width */
+.clip {
+  position: relative;
+  z-index: 1;
+  clip-path: inset(0 19% 0 19%);
+  will-change: clip-path;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clip {
+    clip-path: none;
+    will-change: auto;
+  }
+}
+
+.frame {
+  position: relative;
+  background: var(--paper-deep);
+}
+
+.video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.caption {
+  color: var(--ink-soft);
+  margin-top: var(--s4);
+}
+
+/* play overlay — reduced-motion only (rendered conditionally) */
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 24px color-mix(in srgb, var(--ink) 25%, transparent);
+}
+
+.playGlyph {
+  display: block;
+  width: 0;
+  height: 0;
+  margin-left: 4px;
+  border-style: solid;
+  border-width: 11px 0 11px 18px;
+  border-color: transparent transparent transparent var(--ink);
+}
+
+@media (max-width: 767px) {
+  .clip {
+    clip-path: inset(0 8% 0 8%);
+  }
+}

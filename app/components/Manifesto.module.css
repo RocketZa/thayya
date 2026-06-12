@@ -1,0 +1,65 @@
+/* §10.3 Manifesto — pinned spotlight-reading chapter */
+
+.section {
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* paragraph suggests columns 3–11 of the 12-col grid */
+.text {
+  font-size: var(--type-h2);
+  font-weight: 420;
+  line-height: 1.04;
+  color: var(--ink);
+  max-width: 75%;
+  margin-left: 16.666%;
+}
+
+@media (max-width: 767px) {
+  .text {
+    max-width: 100%;
+    margin-left: 0;
+  }
+}
+
+.word {
+  display: inline;
+}
+
+/* 12-fold rangoli backdrop behind the right edge */
+.rangoli {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--s8) * -2);
+  margin-top: -380px;
+  color: var(--ink);
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ghost numeral bleeding off the left edge */
+.ghost {
+  left: -0.12em;
+  bottom: -0.08em;
+}
+
+@media (max-width: 767px) {
+  .rangoli {
+    right: calc(var(--s8) * -3);
+  }
+}
