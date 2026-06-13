@@ -1,18 +1,12 @@
 "use client";
 
-// Portal app shell header — role switcher mirrors the prototype's
-// Member / Instructor / Admin toggle, as routes instead of JS state.
+// Portal app shell header. The portal you're in is determined ONLY by the
+// logged-in account's role — there is no free role switcher. To change role,
+// log out and sign in with a different account.
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./PortalHeader.module.css";
-
-const ROLES = [
-  { label: "Member", root: "/member", href: "/member/discover" },
-  { label: "Instructor", root: "/instructor", href: "/instructor/today" },
-  { label: "Admin", root: "/admin", href: "/admin/overview" },
-];
 
 function initials(name) {
   if (!name) return "?";
@@ -87,8 +81,6 @@ function AccountArea() {
 }
 
 export default function PortalHeader() {
-  const pathname = usePathname();
-
   return (
     <header className={styles.header}>
       <div className={styles.bar}>
@@ -96,27 +88,11 @@ export default function PortalHeader() {
           Thayya<span className={styles.tm}>™</span>
         </Link>
         <div className={styles.right}>
-          <div className={styles.roles}>
-            {ROLES.map((role) => {
-              const active = pathname.startsWith(role.root);
-              return (
-                <Link
-                  key={role.label}
-                  href={role.href}
-                  className={`${styles.roleBtn} ${active ? styles.roleActive : ""}`}
-                  aria-current={active ? "page" : undefined}
-                >
-                  {role.label}
-                </Link>
-              );
-            })}
-          </div>
           <AccountArea />
         </div>
       </div>
       <div className={styles.strip}>
         <span>Move · Rise · Shine</span>
-        <span className={styles.stripRight}>Switch portals to explore</span>
       </div>
     </header>
   );
