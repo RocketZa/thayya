@@ -36,8 +36,8 @@ export default async function InstructorMusic() {
     );
   }
 
-  const initialTracks = listTracks(instructorId);
-  const initialPlaylists = listPlaylists(instructorId);
+  const initialTracks = await listTracks(instructorId);
+  const initialPlaylists = await listPlaylists(instructorId);
 
   return <MusicClient initialTracks={initialTracks} initialPlaylists={initialPlaylists} />;
 }

@@ -12,7 +12,7 @@ export async function DELETE(req, { params }) {
   if (!instructorId) return NextResponse.json({ error: "No instructor profile." }, { status: 403 });
 
   const { id } = await params;
-  const removed = removeTrack(instructorId, id);
+  const removed = await removeTrack(instructorId, id);
   if (!removed) return NextResponse.json({ error: "Track not found." }, { status: 404 });
 
   return NextResponse.json({ ok: true });

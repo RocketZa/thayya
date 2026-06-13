@@ -23,7 +23,7 @@ export async function POST(req) {
   const safeRole = role === "instructor" ? "instructor" : "member";
   let user;
   try {
-    user = createUser({ email, password, name, role: safeRole });
+    user = await createUser({ email, password, name, role: safeRole });
   } catch (e) {
     return NextResponse.json({ error: e.message || "Could not create account." }, { status: 409 });
   }

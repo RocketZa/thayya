@@ -21,7 +21,7 @@ export async function PUT(req, { params }) {
   }
 
   const { name, trackIds } = body || {};
-  const playlist = updatePlaylist(instructorId, id, { name, trackIds });
+  const playlist = await updatePlaylist(instructorId, id, { name, trackIds });
   if (!playlist) return NextResponse.json({ error: "Playlist not found." }, { status: 404 });
 
   return NextResponse.json({ playlist });
@@ -34,7 +34,7 @@ export async function DELETE(req, { params }) {
   if (!instructorId) return NextResponse.json({ error: "No instructor profile." }, { status: 403 });
 
   const { id } = await params;
-  const removed = deletePlaylist(instructorId, id);
+  const removed = await deletePlaylist(instructorId, id);
   if (!removed) return NextResponse.json({ error: "Playlist not found." }, { status: 404 });
 
   return NextResponse.json({ ok: true });

@@ -22,7 +22,7 @@ function splitDate(date) {
 
 export default async function BookingsPage() {
   const user = await getCurrentUser();
-  const live = user ? listBookingsForUser(user.id) : [];
+  const live = user ? await listBookingsForUser(user.id) : [];
 
   const upcoming = live
     .filter((b) => b.status === "upcoming")

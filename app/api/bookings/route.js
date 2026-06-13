@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const { user, error } = await requireUser();
   if (error) return NextResponse.json({ error }, { status: 401 });
-  return NextResponse.json({ bookings: listBookingsForUser(user.id) });
+  return NextResponse.json({ bookings: await listBookingsForUser(user.id) });
 }
 
 export async function POST(req) {
@@ -26,7 +26,7 @@ export async function POST(req) {
     return NextResponse.json({ error: "workshopId is required." }, { status: 400 });
   }
   try {
-    const { booking, alreadyBooked } = createBooking({ userId: user.id, workshopId });
+    const { booking, alreadyBooked } = await createBooking({ userId: user.id, workshopId });
     return NextResponse.json({ booking, alreadyBooked });
   } catch (e) {
     return NextResponse.json({ error: e.message || "Could not book." }, { status: 400 });

@@ -11,7 +11,7 @@ export async function GET() {
   const instructorId = user.instructorId;
   if (!instructorId) return NextResponse.json({ error: "No instructor profile." }, { status: 403 });
 
-  return NextResponse.json({ playlists: listPlaylists(instructorId) });
+  return NextResponse.json({ playlists: await listPlaylists(instructorId) });
 }
 
 export async function POST(req) {
@@ -28,6 +28,6 @@ export async function POST(req) {
   }
 
   const { name, trackIds } = body || {};
-  const playlist = createPlaylist(instructorId, { name, trackIds });
+  const playlist = await createPlaylist(instructorId, { name, trackIds });
   return NextResponse.json({ playlist });
 }

@@ -11,7 +11,7 @@ export async function GET() {
   const instructorId = user.instructorId;
   if (!instructorId) return NextResponse.json({ error: "No instructor profile." }, { status: 403 });
 
-  return NextResponse.json({ tracks: listTracks(instructorId) });
+  return NextResponse.json({ tracks: await listTracks(instructorId) });
 }
 
 export async function POST(req) {
@@ -32,6 +32,6 @@ export async function POST(req) {
     return NextResponse.json({ error: "A track title is required." }, { status: 400 });
   }
 
-  const track = addTrack(instructorId, { title, artist, duration, mood, bpm, source });
+  const track = await addTrack(instructorId, { title, artist, duration, mood, bpm, source });
   return NextResponse.json({ track });
 }

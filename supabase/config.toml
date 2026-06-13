@@ -1,0 +1,9 @@
+# Supabase project configuration for Thayya.
+#
+# Only the assistant-llm Edge Function is declared here. verify_jwt = false so
+# the Next.js server can invoke it with the anon key (no end-user JWT required);
+# the function itself just reads the request body and proxies to the upstream
+# LLM. The LLM API key is held as a function secret, never committed.
+
+[functions.assistant-llm]
+verify_jwt = false
