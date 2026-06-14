@@ -5,6 +5,7 @@ const ITEMS = [
   { label: "Content Drops", href: "/admin/content" },
   { label: "Instructors", href: "/admin/instructors" },
   { label: "Commission", href: "/admin/commission" },
+  { label: "Music", href: "/admin/music" },
   { label: "Members", href: "/admin/members" },
 ];
 

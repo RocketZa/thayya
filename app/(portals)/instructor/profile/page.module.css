@@ -1,0 +1,241 @@
+/* Instructor · Edit Profile */
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.previewLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.blurb {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin-bottom: 28px;
+  max-width: 60ch;
+}
+
+/* ---- empty / no-instructor card ---- */
+.emptyCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+}
+
+.emptyIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.emptyTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.emptyText {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ---- form layout ---- */
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.photoCard,
+.formCard {
+  padding: 20px;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: var(--ink);
+}
+
+.sectionLabel {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ---- photo ---- */
+.photoRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.photoFrame {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--accent, #e5816c);
+  flex-shrink: 0;
+  background: var(--p-bg-warm);
+}
+
+.photoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photoActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.hiddenFile {
+  display: none;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin: 0;
+  max-width: 40ch;
+}
+
+/* ---- fields ---- */
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.inlineIcon {
+  opacity: 0.8;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--p-line);
+  background: #fff;
+  font-size: 14px;
+  color: var(--ink);
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: 2px solid var(--teal);
+  outline-offset: 1px;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.colorRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.colorSwatch {
+  width: 44px;
+  height: 40px;
+  padding: 2px;
+  border-radius: 10px;
+  border: 1px solid var(--p-line);
+  background: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.smallPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  cursor: pointer;
+}
+
+.error {
+  font-size: 13px;
+  color: var(--vermilion);
+  margin: 0;
+}
+
+.success {
+  font-size: 13px;
+  color: var(--p-green, #5d7a4e);
+  font-weight: 600;
+  margin: 0;
+}
+
+.submit {
+  align-self: flex-start;
+  border: none;
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 38px;
+  }
+
+  .fieldGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

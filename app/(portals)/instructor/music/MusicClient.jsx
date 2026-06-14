@@ -32,6 +32,8 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
   const [tracks, setTracks] = useState(initialTracks || []);
   const [playlists, setPlaylists] = useState(initialPlaylists || []);
   const [form, setForm] = useState(EMPTY_TRACK);
+  const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -76,17 +78,19 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
     }
     setBusy(true);
     try {
+      const fd = new FormData();
+      fd.append("title", form.title.trim());
+      fd.append("artist", form.artist.trim());
+      fd.append("duration", form.duration.trim());
+      fd.append("mood", form.mood);
+      fd.append("bpm", form.bpm);
+      // A picked file wins; otherwise fall back to the chosen demo audioUrl.
+      if (file) fd.append("file", file);
+      else fd.append("audioUrl", form.audioUrl);
+
       const res = await fetch("/api/instructor/tracks", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: form.title.trim(),
-          artist: form.artist.trim(),
-          duration: form.duration.trim(),
-          mood: form.mood,
-          bpm: form.bpm,
-          audioUrl: form.audioUrl,
-        }),
+        body: fd,
       });
       const data = await res.json();
       if (!res.ok) {
@@ -95,6 +99,8 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
       }
       setTracks((prev) => [data.track, ...prev]);
       setForm(EMPTY_TRACK);
+      setFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } catch {
       setError("Network hiccup. Try again.");
     } finally {
@@ -261,11 +267,12 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
               />
             </label>
             <label className={styles.field}>
-              <span className={styles.fieldLabel}>Audio</span>
+              <span className={styles.fieldLabel}>Demo audio</span>
               <select
                 className={styles.input}
                 value={form.audioUrl}
                 onChange={(e) => setForm({ ...form, audioUrl: e.target.value })}
+                disabled={Boolean(file)}
               >
                 <option value="">No audio</option>
                 {AUDIO_OPTIONS.map((a) => (
@@ -275,7 +282,20 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
                 ))}
               </select>
             </label>
+            <label className={styles.field}>
+              <span className={styles.fieldLabel}>Upload MP3</span>
+              <input
+                ref={fileInputRef}
+                className={styles.fileInput}
+                type="file"
+                accept="audio/*"
+                onChange={(e) => setFile(e.target.files?.[0] || null)}
+              />
+            </label>
           </div>
+          {file ? (
+            <p className={styles.hint}>Uploading “{file.name}” — this overrides the demo audio.</p>
+          ) : null}
           {error ? <p className={styles.error}>{error}</p> : null}
           <button type="submit" className={`p-pill p-pill-primary ${styles.submit}`} disabled={busy}>
             <Plus size={16} /> {busy ? "Adding…" : "Add track"}

@@ -65,8 +65,8 @@
   --dur-reveal: 1s;
 
   /* fonts injected by next/font in layout.jsx */
-  --font-display: var(--font-fraunces), georgia, serif;
-  --font-body: var(--font-hanken), system-ui, sans-serif;
+  --font-display: var(--font-unbounded), system-ui, sans-serif;
+  --font-body: var(--font-jakarta), system-ui, sans-serif;
   --font-tamil: var(--font-anek-tamil), sans-serif;
 }
 
@@ -153,15 +153,13 @@ ul {
 /* ---------- typography helpers ---------- */
 .display {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 0.92;
-  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
 }
 
 .display-italic {
-  font-style: italic;
-  font-variation-settings: "opsz" 144, "SOFT" 40, "WONK" 1;
+  font-style: normal;
 }
 
 .gradient-text {

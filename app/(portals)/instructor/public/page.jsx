@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Star } from "lucide-react";
+import { Star, AtSign, Play } from "lucide-react";
 import { getCurrentUser } from "../../../../lib/auth";
 import { findUserById, listWorkshopsForInstructor } from "../../../../lib/db";
 import Avatar from "../../../components/art/Avatar";
@@ -9,6 +9,7 @@ import styles from "./page.module.css";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Public Page · Instructor · Thayya™" };
 
+const DEFAULT_ACCENT = "#e5816c";
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -21,6 +22,16 @@ function whenLabel(w) {
     }
   }
   return [w.date, w.time].filter(Boolean).join(" · ") || "Date to be announced";
+}
+
+// Normalise a social handle/URL into a full link, or null when empty.
+function socialLink(value, kind) {
+  const v = String(value || "").trim();
+  if (!v) return null;
+  if (/^https?:\/\//i.test(v)) return v;
+  const handle = v.replace(/^@/, "");
+  if (kind === "instagram") return `https://instagram.com/${handle}`;
+  return `https://youtube.com/${handle}`;
 }
 
 export default async function InstructorPublic() {
@@ -38,6 +49,14 @@ export default async function InstructorPublic() {
   const handle = instructorId || "you";
   const overline = [profileUser?.city, profileUser?.style].filter(Boolean).join(" · ") || "Thayya Instructor";
   const ratingText = profileUser?.rating ? `${profileUser.rating} rating` : "New instructor";
+  const accent =
+    profileUser?.accentColor && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(profileUser.accentColor)
+      ? profileUser.accentColor
+      : DEFAULT_ACCENT;
+  const tagline = profileUser?.tagline || "";
+  const avatarUrl = profileUser?.avatarUrl || "";
+  const instagramUrl = socialLink(profileUser?.instagram, "instagram");
+  const youtubeUrl = socialLink(profileUser?.youtube, "youtube");
 
   return (
     <div className="p-wrap">
@@ -50,7 +69,7 @@ export default async function InstructorPublic() {
       </header>
 
       {/* Browser-chrome preview frame */}
-      <div className={styles.frame}>
+      <div className={styles.frame} style={{ "--accent": accent }}>
         <div className={styles.chrome}>
           <div className={styles.dots}>
             <span className={styles.dot} style={{ background: "#e5816c" }} />
@@ -64,7 +83,12 @@ export default async function InstructorPublic() {
           <div className="grain" />
           <div className={styles.profileGrid}>
             <div className={styles.avatar}>
-              <Avatar fill seed={instructorId} name={name} rounded="squircle" />
+              {avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={avatarUrl} alt={`${name} photo`} className={styles.avatarImg} />
+              ) : (
+                <Avatar fill seed={instructorId} name={name} rounded="squircle" />
+              )}
               <div className="grain" />
             </div>
             <div className={styles.profileInfo}>
@@ -73,11 +97,38 @@ export default async function InstructorPublic() {
                 {first}{" "}
                 {lastAccent ? <span className="gradient-text">{lastAccent}</span> : null}
               </h2>
+              {tagline ? <p className={styles.tagline}>{tagline}</p> : null}
               {profileUser?.bio ? <p className={styles.bio}>{profileUser.bio}</p> : null}
               <div className={styles.statsRow}>
                 <span className={styles.rating}>
                   <Star size={16} fill="currentColor" className={styles.star} /> {ratingText}
                 </span>
+                {(instagramUrl || youtubeUrl) ? (
+                  <span className={styles.socials}>
+                    {instagramUrl ? (
+                      <a
+                        href={instagramUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.social}
+                        aria-label="Instagram"
+                      >
+                        <AtSign size={16} />
+                      </a>
+                    ) : null}
+                    {youtubeUrl ? (
+                      <a
+                        href={youtubeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.social}
+                        aria-label="YouTube"
+                      >
+                        <Play size={16} />
+                      </a>
+                    ) : null}
+                  </span>
+                ) : null}
               </div>
             </div>
           </div>
@@ -97,7 +148,7 @@ export default async function InstructorPublic() {
                     </span>
                     <Link
                       href={`/member/book?workshopId=${w.id}`}
-                      className={`p-grad-warm ${styles.bookChip}`}
+                      className={styles.bookChip}
                     >
                       Book
                     </Link>

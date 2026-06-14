@@ -7,6 +7,7 @@ const ITEMS = [
   { label: "My Workshops", href: "/instructor/workshops" },
   { label: "My Students", href: "/instructor/students" },
   { label: "Earnings", href: "/instructor/earnings" },
+  { label: "Edit Profile", href: "/instructor/profile" },
   { label: "Public Page", href: "/instructor/public" },
 ];
 

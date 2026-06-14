@@ -75,6 +75,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 0 3px var(--accent, #e5816c);
+}
+
+.avatarImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .initials {
@@ -95,6 +105,13 @@
   margin: 8px 0 12px;
 }
 
+.tagline {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent, #e5816c);
+  margin: 0 0 10px;
+}
+
 .bio {
   font-size: 14px;
   color: var(--ink-soft);
@@ -105,8 +122,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
+  flex-wrap: wrap;
   font-size: 14px;
+}
+
+.socials {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--accent, #e5816c);
+  border: 1px solid var(--p-line);
+  background: #fff;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.social:hover {
+  background: var(--accent, #e5816c);
+  color: #fff;
 }
 
 .rating {
@@ -176,6 +219,7 @@
   padding: 4px 12px;
   border-radius: 999px;
   color: #fff;
+  background: var(--accent, #e5816c);
   display: inline-block;
   text-decoration: none;
 }

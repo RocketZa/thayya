@@ -1,17 +1,16 @@
-import { Fraunces, Hanken_Grotesk, Anek_Tamil } from "next/font/google";
+import { Unbounded, Plus_Jakarta_Sans, Anek_Tamil } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/providers/SmoothScroll";
 
-const fraunces = Fraunces({
+const unbounded = Unbounded({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-unbounded",
   display: "swap",
-  axes: ["opsz", "SOFT", "WONK"],
 });
 
-const hanken = Hanken_Grotesk({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-hanken",
+  variable: "--font-jakarta",
   display: "swap",
 });
 
@@ -32,7 +31,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${hanken.variable} ${anekTamil.variable}`}
+      className={`${unbounded.variable} ${jakarta.variable} ${anekTamil.variable}`}
       suppressHydrationWarning
     >
       <head>
