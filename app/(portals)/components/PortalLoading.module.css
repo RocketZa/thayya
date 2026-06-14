@@ -1,0 +1,89 @@
+/* Instant navigation skeleton for the portals. Shown by Next.js loading.jsx
+   while a dynamic page server-renders. Compositor-friendly shimmer only. */
+
+.wrap {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 32px 16px 96px;
+}
+@media (min-width: 768px) {
+  .wrap {
+    padding: 48px 32px 128px;
+  }
+}
+
+.head {
+  margin-bottom: 32px;
+}
+
+.block {
+  position: relative;
+  overflow: hidden;
+  background: var(--p-line-soft, #f0ebe0);
+  border-radius: 8px;
+}
+.block::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.65) 45%,
+    rgba(246, 105, 23, 0.1) 50%,
+    rgba(255, 255, 255, 0.65) 55%,
+    transparent 100%
+  );
+  animation: portal-shimmer 1.25s var(--ease-beat, ease-in-out) infinite;
+}
+@keyframes portal-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.overline {
+  width: 140px;
+  height: 11px;
+  border-radius: 99px;
+  margin-bottom: 18px;
+}
+.title {
+  width: min(440px, 80%);
+  height: 40px;
+  border-radius: 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  height: 180px;
+  border-radius: 16px;
+  border: 1px solid var(--p-line, #e8e2d5);
+  background: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.cardBar {
+  height: 14px;
+  border-radius: 99px;
+}
+.w70 { width: 70%; }
+.w90 { width: 90%; }
+.w50 { width: 50%; }
+.grow { flex: 1; border-radius: 12px; }
+
+/* respect reduced motion: drop the sweep, keep a calm static skeleton */
+@media (prefers-reduced-motion: reduce) {
+  .block::after {
+    animation: none;
+    opacity: 0;
+  }
+}
