@@ -252,6 +252,38 @@
   border-color: var(--vermilion);
 }
 
+/* ---- play / pause button (track row) ---- */
+.playBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--p-line);
+  background: #fff;
+  color: var(--teal);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.playBtn:hover:not(:disabled) {
+  border-color: var(--teal);
+}
+
+.playBtn:disabled {
+  color: var(--ink-muted);
+  opacity: 0.45;
+  cursor: default;
+}
+
+.playBtnActive {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
+}
+
 /* ---- playlist builder ---- */
 .builder {
   padding: 20px;
@@ -365,6 +397,34 @@
   gap: 8px;
   padding: 6px 0;
   font-size: 13px;
+}
+
+.miniTrackActive .miniName {
+  color: var(--teal);
+  font-weight: 600;
+}
+
+.miniPlayBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.miniPlayBtn:hover:not(:disabled) {
+  background: var(--p-line-soft);
+}
+
+.miniPlayBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 .miniPlay {

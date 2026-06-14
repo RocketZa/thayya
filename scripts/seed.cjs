@@ -124,12 +124,12 @@ const fmtDate = (ms) =>
 
     // ---- anaya's music tracks + a playlist ----
     const tracks = [
-      { id: id("trk"), instructor_id: "anaya", title: "Saanson Ki Mala (remix)", artist: "Thayya Sessions", duration: "3:42", mood: "Warm-up", bpm: 96, source: "Thayya Library", created_at: now },
-      { id: id("trk"), instructor_id: "anaya", title: "Marigold Drums", artist: "Thayya Sessions", duration: "4:01", mood: "Peak", bpm: 128, source: "Thayya Library", created_at: now },
-      { id: id("trk"), instructor_id: "anaya", title: "Pichkari Bass", artist: "Thayya Sessions", duration: "3:28", mood: "Peak", bpm: 130, source: "Thayya Library", created_at: now },
-      { id: id("trk"), instructor_id: "anaya", title: "Kajra Re Reprise", artist: "Thayya Sessions", duration: "4:15", mood: "Groove", bpm: 112, source: "Thayya Library", created_at: now },
-      { id: id("trk"), instructor_id: "anaya", title: "Tabla Sunrise", artist: "Thayya Sessions", duration: "3:55", mood: "Cool-down", bpm: 84, source: "Thayya Library", created_at: now },
-      { id: id("trk"), instructor_id: "anaya", title: "Velvet Lehenga Theme", artist: "Thayya Sessions", duration: "4:00", mood: "Groove", bpm: 108, source: "Thayya Library", created_at: now },
+      { id: id("trk"), instructor_id: "anaya", title: "Saanson Ki Mala (remix)", artist: "Thayya Sessions", duration: "3:42", mood: "Warm-up", bpm: 96, source: "Thayya Library", audio_url: "/audio/demo-1.mp3", created_at: now },
+      { id: id("trk"), instructor_id: "anaya", title: "Marigold Drums", artist: "Thayya Sessions", duration: "4:01", mood: "Peak", bpm: 128, source: "Thayya Library", audio_url: "/audio/demo-2.mp3", created_at: now },
+      { id: id("trk"), instructor_id: "anaya", title: "Pichkari Bass", artist: "Thayya Sessions", duration: "3:28", mood: "Peak", bpm: 130, source: "Thayya Library", audio_url: "/audio/demo-3.mp3", created_at: now },
+      { id: id("trk"), instructor_id: "anaya", title: "Kajra Re Reprise", artist: "Thayya Sessions", duration: "4:15", mood: "Groove", bpm: 112, source: "Thayya Library", audio_url: "/audio/demo-4.mp3", created_at: now },
+      { id: id("trk"), instructor_id: "anaya", title: "Tabla Sunrise", artist: "Thayya Sessions", duration: "3:55", mood: "Cool-down", bpm: 84, source: "Thayya Library", audio_url: "/audio/demo-5.mp3", created_at: now },
+      { id: id("trk"), instructor_id: "anaya", title: "Velvet Lehenga Theme", artist: "Thayya Sessions", duration: "4:00", mood: "Groove", bpm: 108, source: "Thayya Library", audio_url: "/audio/demo-6.mp3", created_at: now },
     ];
     const playlist = { id: id("pl"), instructor_id: "anaya", name: "Friday Night Floor", track_ids: tracks.slice(0, 4).map((t) => t.id), created_at: now };
 
@@ -162,7 +162,7 @@ const fmtDate = (ms) =>
       await tx`insert into users ${tx(users, "id", "email", "password_hash", "role", "name", "instructor_id", "points", "style", "city", "bio", "rating", "verified", "active", "created_at")}`;
       await tx`insert into workshops ${tx(workshops, "id", "title", "instructor", "instructor_id", "date", "time", "venue", "price", "spots_left", "capacity", "starts_at", "created_at")}`;
       await tx`insert into bookings ${tx(bookings, "id", "user_id", "workshop_id", "title", "instructor", "instructor_id", "date", "time", "price", "status", "starts_at", "created_at")}`;
-      await tx`insert into tracks ${tx(tracks, "id", "instructor_id", "title", "artist", "duration", "mood", "bpm", "source", "created_at")}`;
+      await tx`insert into tracks ${tx(tracks, "id", "instructor_id", "title", "artist", "duration", "mood", "bpm", "source", "audio_url", "created_at")}`;
       await tx`insert into playlists (id, instructor_id, name, track_ids, created_at)
                values (${playlist.id}, ${playlist.instructor_id}, ${playlist.name}, ${tx.json(playlist.track_ids)}, ${playlist.created_at})`;
       await tx`insert into content_drops ${tx(drops, "id", "name", "note", "videos_count", "audio_count", "status", "created_at")}`;

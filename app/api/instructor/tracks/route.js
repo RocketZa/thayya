@@ -27,11 +27,11 @@ export async function POST(req) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  const { title, artist, duration, mood, bpm, source } = body || {};
+  const { title, artist, duration, mood, bpm, source, audioUrl } = body || {};
   if (!title || !String(title).trim()) {
     return NextResponse.json({ error: "A track title is required." }, { status: 400 });
   }
 
-  const track = await addTrack(instructorId, { title, artist, duration, mood, bpm, source });
+  const track = await addTrack(instructorId, { title, artist, duration, mood, bpm, source, audioUrl });
   return NextResponse.json({ track });
 }

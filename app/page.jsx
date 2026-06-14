@@ -1,15 +1,20 @@
+import dynamic from "next/dynamic";
 import Loader from "./components/Loader";
 import Nav from "./components/Nav";
 import Hero from "./components/hero/Hero";
 import Marquee from "./components/Marquee";
-import Manifesto from "./components/Manifesto";
-import Classes from "./components/Classes";
-import Pathways from "./components/Pathways";
-import Journey from "./components/Journey";
-import Trainings from "./components/Trainings";
-import Film from "./components/Film";
-import Community from "./components/Community";
-import FooterCta from "./components/FooterCta";
+
+// Below-the-fold sections are code-split and lazy-loaded so their client JS
+// doesn't block initial paint/hydration. SSR stays on (default), so the markup
+// is still server-rendered — no SEO loss and no layout shift.
+const Manifesto = dynamic(() => import("./components/Manifesto"));
+const Classes = dynamic(() => import("./components/Classes"));
+const Pathways = dynamic(() => import("./components/Pathways"));
+const Journey = dynamic(() => import("./components/Journey"));
+const Trainings = dynamic(() => import("./components/Trainings"));
+const Film = dynamic(() => import("./components/Film"));
+const Community = dynamic(() => import("./components/Community"));
+const FooterCta = dynamic(() => import("./components/FooterCta"));
 
 export default function Home() {
   return (

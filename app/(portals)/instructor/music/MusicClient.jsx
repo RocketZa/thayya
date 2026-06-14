@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Music, Plus, Trash2, ListMusic, Play, Disc3, X, Pencil, Check } from "lucide-react";
+import { useRef, useState } from "react";
+import { Music, Plus, Trash2, ListMusic, Play, Pause, Disc3, X, Pencil, Check } from "lucide-react";
 import styles from "./music.module.css";
 
 const MOODS = ["Warm-up", "Groove", "Peak", "Cool-down"];
@@ -17,7 +17,16 @@ function moodBadgeClass(mood) {
   return MOOD_BADGE[mood] || "p-badge-cool";
 }
 
-const EMPTY_TRACK = { title: "", artist: "", duration: "", mood: "Groove", bpm: "" };
+const EMPTY_TRACK = { title: "", artist: "", duration: "", mood: "Groove", bpm: "", audioUrl: "" };
+
+const AUDIO_OPTIONS = [
+  { value: "/audio/demo-1.mp3", label: "Demo 1" },
+  { value: "/audio/demo-2.mp3", label: "Demo 2" },
+  { value: "/audio/demo-3.mp3", label: "Demo 3" },
+  { value: "/audio/demo-4.mp3", label: "Demo 4" },
+  { value: "/audio/demo-5.mp3", label: "Demo 5" },
+  { value: "/audio/demo-6.mp3", label: "Demo 6" },
+];
 
 export default function MusicClient({ initialTracks, initialPlaylists }) {
   const [tracks, setTracks] = useState(initialTracks || []);
@@ -36,8 +45,26 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState("");
 
+  // audio player state
+  const audioRef = useRef(null);
+  const [playingId, setPlayingId] = useState(null);
+
   function trackById(id) {
     return tracks.find((t) => t.id === id);
+  }
+
+  function togglePlay(track) {
+    if (!track || !track.audioUrl) return;
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (playingId === track.id) {
+      audio.pause();
+      setPlayingId(null);
+      return;
+    }
+    audio.src = track.audioUrl;
+    audio.play().catch(() => setPlayingId(null));
+    setPlayingId(track.id);
   }
 
   async function addTrack(e) {
@@ -58,6 +85,7 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
           duration: form.duration.trim(),
           mood: form.mood,
           bpm: form.bpm,
+          audioUrl: form.audioUrl,
         }),
       });
       const data = await res.json();
@@ -158,6 +186,7 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
 
   return (
     <div className="p-wrap">
+      <audio ref={audioRef} preload="none" onEnded={() => setPlayingId(null)} />
       <header className={styles.head}>
         <div>
           <div className="p-overline">Studio Sound</div>
@@ -231,6 +260,21 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
                 placeholder="120"
               />
             </label>
+            <label className={styles.field}>
+              <span className={styles.fieldLabel}>Audio</span>
+              <select
+                className={styles.input}
+                value={form.audioUrl}
+                onChange={(e) => setForm({ ...form, audioUrl: e.target.value })}
+              >
+                <option value="">No audio</option>
+                {AUDIO_OPTIONS.map((a) => (
+                  <option key={a.value} value={a.value}>
+                    {a.label}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
           {error ? <p className={styles.error}>{error}</p> : null}
           <button type="submit" className={`p-pill p-pill-primary ${styles.submit}`} disabled={busy}>
@@ -264,6 +308,22 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
                   <span className={styles.trackSource}>· {t.source}</span>
                 </div>
               </div>
+              <button
+                type="button"
+                className={`${styles.playBtn} ${playingId === t.id ? styles.playBtnActive : ""}`}
+                onClick={() => togglePlay(t)}
+                disabled={!t.audioUrl}
+                aria-label={
+                  !t.audioUrl
+                    ? `No audio for ${t.title}`
+                    : playingId === t.id
+                      ? `Pause ${t.title}`
+                      : `Play ${t.title}`
+                }
+                title={!t.audioUrl ? "No audio attached" : playingId === t.id ? "Pause" : "Play"}
+              >
+                {playingId === t.id ? <Pause size={16} /> : <Play size={16} />}
+              </button>
               <button
                 type="button"
                 className={styles.iconBtn}
@@ -405,8 +465,32 @@ export default function MusicClient({ initialTracks, initialPlaylists }) {
                     const t = trackById(tid);
                     if (!t) return null;
                     return (
-                      <div key={tid} className={styles.miniTrack}>
-                        <Play size={13} className={styles.miniPlay} />
+                      <div
+                        key={tid}
+                        className={`${styles.miniTrack} ${playingId === t.id ? styles.miniTrackActive : ""}`}
+                      >
+                        <button
+                          type="button"
+                          className={styles.miniPlayBtn}
+                          onClick={() => togglePlay(t)}
+                          disabled={!t.audioUrl}
+                          aria-label={
+                            !t.audioUrl
+                              ? `No audio for ${t.title}`
+                              : playingId === t.id
+                                ? `Pause ${t.title}`
+                                : `Play ${t.title}`
+                          }
+                          title={
+                            !t.audioUrl ? "No audio attached" : playingId === t.id ? "Pause" : "Play"
+                          }
+                        >
+                          {playingId === t.id ? (
+                            <Pause size={13} className={styles.miniPlay} />
+                          ) : (
+                            <Play size={13} className={styles.miniPlay} />
+                          )}
+                        </button>
                         <span className={styles.miniName}>{t.title}</span>
                         <span className={styles.miniDur}>{t.duration}</span>
                       </div>
