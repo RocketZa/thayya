@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Star, AtSign, Play } from "lucide-react";
-import { getCurrentUser } from "../../../../lib/auth";
+import { getSessionUser } from "../../../../lib/auth";
 import { findUserById, listWorkshopsForInstructor } from "../../../../lib/db";
 import Avatar from "../../../components/art/Avatar";
 import { PUBLIC_PAGE } from "../data";
@@ -36,7 +36,7 @@ function socialLink(value, kind) {
 
 export default async function InstructorPublic() {
   const { overlinePrefix, bookTitle } = PUBLIC_PAGE;
-  const user = await getCurrentUser();
+  const user = await getSessionUser();
   const instructorId = user?.instructorId;
 
   const profileUser = instructorId ? await findUserById(user.id) : null;

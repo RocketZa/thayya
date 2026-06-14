@@ -1,5 +1,5 @@
 import { Disc3 } from "lucide-react";
-import { getCurrentUser } from "../../../../lib/auth";
+import { getSessionUser } from "../../../../lib/auth";
 import { listTracks, listPlaylists } from "../../../../lib/db";
 import MusicClient from "./MusicClient";
 import styles from "./music.module.css";
@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Music Library · Instructor · Thayya™" };
 
 export default async function InstructorMusic() {
-  const user = await getCurrentUser();
+  const user = await getSessionUser();
   const instructorId = user?.instructorId;
 
   if (!instructorId) {

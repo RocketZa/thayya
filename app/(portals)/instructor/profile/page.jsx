@@ -1,5 +1,5 @@
 import { UserCog } from "lucide-react";
-import { getCurrentUser } from "../../../../lib/auth";
+import { getSessionUser } from "../../../../lib/auth";
 import { findUserById } from "../../../../lib/db";
 import ProfileClient from "./ProfileClient";
 import styles from "./page.module.css";
@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Edit Profile · Instructor · Thayya™" };
 
 export default async function InstructorProfile() {
-  const user = await getCurrentUser();
+  const user = await getSessionUser();
   const instructorId = user?.instructorId;
 
   if (!instructorId) {

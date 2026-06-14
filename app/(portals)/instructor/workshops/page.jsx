@@ -1,4 +1,4 @@
-import { getCurrentUser } from "../../../../lib/auth";
+import { getSessionUser } from "../../../../lib/auth";
 import { listWorkshopsForInstructor, bookedCountsForInstructor } from "../../../../lib/db";
 import { WORKSHOPS } from "../data";
 import WorkshopsClient from "./WorkshopsClient";
@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "My Workshops · Instructor · Thayya™" };
 
 export default async function InstructorWorkshops() {
-  const user = await getCurrentUser();
+  const user = await getSessionUser();
   const instructorId = user?.instructorId;
 
   const workshops = instructorId ? await listWorkshopsForInstructor(instructorId) : [];

@@ -1,5 +1,5 @@
 import { BOOKINGS } from "../data";
-import { getCurrentUser } from "../../../../lib/auth";
+import { getSessionUser } from "../../../../lib/auth";
 import { listBookingsForUser } from "../../../../lib/db";
 import CancelButton from "./CancelButton";
 import styles from "./page.module.css";
@@ -23,7 +23,7 @@ function rupees(n) {
 }
 
 export default async function BookingsPage() {
-  const user = await getCurrentUser();
+  const user = await getSessionUser();
   const live = user ? await listBookingsForUser(user.id) : [];
   const now = Date.now();
 

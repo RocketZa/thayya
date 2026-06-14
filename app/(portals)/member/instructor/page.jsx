@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ChevronLeft, Star, BadgeCheck } from "lucide-react";
-import { getCurrentUser } from "../../../../lib/auth";
+import { getSessionUser } from "../../../../lib/auth";
 import {
   getInstructorProfile,
   listInstructorsForDiscover,
@@ -59,7 +59,7 @@ export default async function InstructorPage({ searchParams }) {
   }
 
   const { first, last } = splitName(profile.name);
-  const user = await getCurrentUser();
+  const user = await getSessionUser();
   const following = user ? await isFollowing(user.id, profile.instructorId) : false;
   const code = referralCode(user);
   const ws = profile.workshops || [];

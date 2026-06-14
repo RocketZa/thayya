@@ -1,4 +1,4 @@
-import { getCurrentUser } from "../../../../lib/auth";
+import { getSessionUser } from "../../../../lib/auth";
 import { getInstructorEarnings } from "../../../../lib/db";
 import { EARNINGS } from "../data";
 import WithdrawButton from "./WithdrawButton";
@@ -13,7 +13,7 @@ function fmtRupees(n) {
 
 export default async function InstructorEarnings() {
   const { overline, title, balance, year, commissionsLabel } = EARNINGS;
-  const user = await getCurrentUser();
+  const user = await getSessionUser();
   const instructorId = user?.instructorId;
 
   const earnings = instructorId
